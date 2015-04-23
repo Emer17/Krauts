@@ -1,3 +1,3 @@
 # Krauts
 
-This repository focuses the creation of a new interpreted language by Java, an exercice of Programação I, idealized at the university UFFS located in Brazil.
+A new interpreted language running on top of Java, idealized at Federal University of Fronteira Sul, Brasil
