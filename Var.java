@@ -26,3 +26,6 @@ class Var {
 		return this.value;
 	}
 }
+
+// YTPBR Courier Crisis by Mestre3224
+// comentário non-sense só pra fins de teste
