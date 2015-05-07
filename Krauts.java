@@ -18,6 +18,6 @@ class Krauts {
             linhas[i] = s.nextLine();
             i++;
         }
-        b.interpreta(linhas);
+        b.interpret(linhas);
     }
 }
