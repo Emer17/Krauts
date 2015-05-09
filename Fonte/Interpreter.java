@@ -5,13 +5,13 @@ class Interpreter {
 		variable = new Var[];
 	}
 
-	public void interpret(String linhas[]) {
-		for (int i = 0; i < linhas.lenght; i++) {
+	public void interprete(String lines[]) {
+		for (int i = 0; i < lines.length; i++) {
 			String treated[] = new String("");
-			treated[] = linhas[i].split(" "); //linha tratada a ser interpretada
+			treated[] = lines[i].split(" "); //linha tratada a ser interpretada
 			
 		
-			swicth (treated) {
+			switch (treated) {
 				case "add":
 				
 				break;

@@ -1,3 +1,14 @@
+/**
+ * Krauts - an interpreted language with Assembly-like syntax
+ * Developed by Vitor G. Forbrig and Leonardo D. Constantin
+ * 
+ * Contact us: 
+ *  vitorforbrig at gmail dot com
+ *  constantin dot leo at gmail dot com
+ * 
+ * Main class: reads file
+**/
+
 import java.util.Scanner;
 import java.io.*;
 
@@ -5,19 +16,52 @@ class Krauts {
     public static void main(String args[]) {
         File f;
         Scanner s;
-        Interpreter b;
-        String linhas[] = new String[2000]; // arquivo pode ter, no máximo, 2000 linhas.
-
+        Interpreter IT;
+        // arquivo pode ter, no máximo, 2000 linhas.
+        String lines[] = new String[2000]; 
+		String dummy = new String();
+		
         f = new File(args[0]);
         s = new Scanner(f);
-        b = new Interpreter();
+        IT = new Interpreter();
         variable[] = new var();
 
         int i = 0;
         while(s.hasNext()) {
-            linhas[i] = s.nextLine();
+            lines[i] = s.nextLine();
             i++;
         }
-        b.interpret(linhas);
+        b.interpret(lines);
+        
+        try {
+            // Referencia o arquivo. args[0] conterá os dados passados pela linha de comando.
+            f = new File(args[0]);
+            // Mandamos o Scanner ler a partir do arquivo.
+            s = new Scanner(f);
+            // Instanciamos o interpretador.
+            b = new Interpretador();
+            
+            // Lemos todas as lines do arquivo para dentro do
+            // vetor "lines".
+            int i = 0;
+            while(s.hasNext()) {
+            branco = s.nextLine();
+                if(branco.equals("\t") != true && branco.equals("") != true){  
+                    lines[i] = branco;
+                    if(lines[i].equals("") != true){
+                        i++;
+                    }
+                }
+            }
+            
+            // Inicializamos o interpretador com o vetor de lines. A partir
+            // desse ponto, o objeto "b" irá interpretar o código lido do arquivo.
+            b.interpreta(lines);
+            
+        } catch (Exception e) {
+            System.out.println("Nao consegui ler o arquivo: " + (args.length > 0 ? args[0] : "(desconhecido)"));
+            System.out.println("Uso:");
+            System.out.println("    java Krauts nomedoarquivo.krauts");
+        }
     }
 }
