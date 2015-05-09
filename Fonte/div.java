@@ -1,0 +1,7 @@
+class div extends arit { //
+
+
+
+
+
+}

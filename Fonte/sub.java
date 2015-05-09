@@ -1,0 +1,6 @@
+class sub extends arit { //
+
+
+
+
+}

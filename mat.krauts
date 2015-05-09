@@ -1,0 +1,4 @@
+PRT ADD 2 2;   ~ 4 ~
+PRT MUL 3 4;   ~ 12 ~
+PRT SUB 32 12; ~ 20 ~
+PRT DIV 9 3;   ~ 3 ~

@@ -1,0 +1,12 @@
+~ Comentario de linha ~
+DBL A;
+DBL B;
+
+SET A 125;
+SET B ADD 75 A;
+
+PRT A; ~ 125 ~
+PRT B; ~ 200 ~
+PRT SUB A B; ~ -75 ~
+
+
