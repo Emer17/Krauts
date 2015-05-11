@@ -1,3 +1,0 @@
-class Div { //division
-	
-}
