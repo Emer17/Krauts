@@ -1,5 +1,5 @@
-class mul extends arit { // multplication
-	public int mul(double a, double b) {
+class Mul { // multplication
+	public double mul(double a, double b) {
 		return a * b;
 	}
 }

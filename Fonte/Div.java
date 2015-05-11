@@ -1,5 +1,5 @@
-class div extends arit { //division
-	public int div(double a, double b) {
+class Div { //division
+	public double div(double a, double b) {
 		return a / b;
 	}
 }
