@@ -1,58 +1,55 @@
 class Interpreter {
+	private Var variable[];
+	
 	public Interpreter( ) { //init the interpretar already whit "variable"
-		Var variable[] = new Var[1000];
+		this.variable = new Var[1000];
 	}
 
-	public void interprete(String lines[]) {
-		Arit arit = new Arit;
+	public void interpret(String lines[]) {
+		double a, b;
+		int k;
+		Arit arit = new Arit();
 		//laço da interpretação
 		for (int i = 0; i < lines.length; i++) {
-			String treated[] = new String("");
-			treated[] = lines[i].split(" "); //linha tratada a ser interpretada
+			String treated[] = new String[100];
+			treated = lines[i].split(" "); //linha tratada a ser interpretada
 			//interpreta a linha
-			for(int j = 0; j < treated[].length; j++) {
+			for(int j = 0; j < treated.length; j++) {
 				switch (treated[j]) {
 					case "new":
 						//acha e insere no final do vetor
-						int k = variable[].length + 1;
+						k = variable.length + 1;
 						variable[k].setName(treated[j+1]);
 						break;
 						
 					case "add":
-						Add a = new Add;
 						//retorna o indice do vetor de variavel que tem aquele nome, se houver
-						double a = arit.Arit1(treated[i+1], variable[]);
-						double b = arit.Arit1(treated[i+2], variable[]);
-						int k = arit.Arit2((treated[i-1], variable[]);
-						variable[k].setValue(a.add(a, b));
+						a = arit.Arit1(treated[i+1], variable);
+						b = arit.Arit1(treated[i+2], variable);
+						k = arit.Arit2(treated[i-1], variable);
+						variable[k].setValue(arit.add(a, b));
 						break;
 					case "sub":
-						Sub a = new Sub;
 						//retorna o indice do vetor de variavel que tem aquele nome, se houver
-						double a = arit.Arit1(treated[i+1], variable[]);
-						double b = arit.Arit1(treated[i+2], variable[]);
-						int k = arit.Arit2((treated[i-1], variable[]);
-						variable[k].setValue(a.sub(a, b));
+						a = arit.Arit1(treated[i+1], variable);
+						b = arit.Arit1(treated[i+2], variable);
+						k = arit.Arit2(treated[i-1], variable);
+						variable[k].setValue(arit.sub(a, b));
 						break;
-					break;
 					case "div":
-						Div a = new Div;
 						//retorna o indice do vetor de variavel que tem aquele nome, se houver
-						double a = arit.Arit1(treated[i+1], variable[]);
-						double b = arit.Arit1(treated[i+2], variable[]);
-						int k = arit.Arit2((treated[i-1], variable[]);
-						variable[k].setValue(a.div(a, b));
+						a = arit.Arit1(treated[i+1], variable);
+						b = arit.Arit1(treated[i+2], variable);
+						k = arit.Arit2(treated[i-1], variable);
+						variable[k].setValue(arit.div(a, b));
 						break;
-					break;
 					case "mul":
-						Mul a = new Mul;
 						//retorna o indice do vetor de variavel que tem aquele nome, se houver
-						double a = arit.Arit1(treated[i+1], variable[]);
-						double b = arit.Arit1(treated[i+2], variable[]);
-						int k = arit.Arit2((treated[i-1], variable[]);
-						variable[k].setValue(a.mul(a, b));
+						a = arit.Arit1(treated[i+1], variable);
+						b = arit.Arit1(treated[i+2], variable);
+						k = arit.Arit2(treated[i-1], variable);
+						variable[k].setValue(arit.mul(a, b));
 						break;
-					break;
 					case "str":
 					
 					break;
@@ -63,7 +60,7 @@ class Interpreter {
 					
 					break;
 				}
-				System.out.println(variable[0].getValue);
+				System.out.println(variable[0].getValue());
 			}			
 		
 		}

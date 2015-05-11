@@ -11,25 +11,22 @@
 
 import java.util.Scanner;
 import java.io.*;
-
 class Krauts {
-    public static void main(String args[]) {
-        File f;
-        Scanner s;
-        Interpreter Inter;
-        // arquivo pode ter, no máximo, 2000 linhas.
-        String lines[] = new String[2000]; 
+	public static void main(String args[]) throws Exception {
+		File f;
+		Scanner s;
+		Interpreter Inter;
+		String linhas[] = new String[2000];
 		
-        f = new File(args[0]);
-        s = new Scanner(f);
-        Inter = new Interpreter();
-        variable[] = new var();
-
-        int i = 0;
-        while(s.hasNext()) {
-            lines[i] = s.nextLine();
-            i++;
-        }
-        Inter.interpret(lines);
-      
+		f = new File(args[0]);
+		s = new Scanner(f);
+		Inter = new Interpreter();
+		
+		int i = 0;
+		while(s.hasNext()) {
+			linhas[i] = s.nextLine();
+			i++;
+		}
+		Inter.interpret(linhas);
+	}
 }
