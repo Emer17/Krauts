@@ -4,25 +4,21 @@
 class Var {
 	private String name;
 	private double value;
-	
-	public Var(String s, double d) { //the constructor
-		this.name = s;
-		this.value = d;
-	}
-	
+
 	public void setName(String p) {
 		this.name = p;
+		this.setValue(0);
 	}
 	
 	public void setValue(double n) {
 		this.value = n;
 	}
 	
-	public String getNome() {
+	public String getName() {
 		return this.name;
 	}
 	
-	public double getValor() {
+	public double getValue() {
 		return this.value;
 	}
 }
