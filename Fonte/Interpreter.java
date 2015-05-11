@@ -1,8 +1,6 @@
 class Interpreter {
-	private var variable;
-	
 	public Interpreter( ) { //init the interpretar already whit "variable"
-		variable = new Var[];
+		Var variable[] = new Var[1000];
 	}
 
 	public void interprete(String lines[]) {
