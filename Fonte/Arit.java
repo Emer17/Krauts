@@ -15,8 +15,9 @@ class Arit {
 		return a + b;
 	}
 	
-	//recebe string e retorna número da variavel ou constante, ex no código: "add a 2", retorna o valor contido em "a" ou a constante "2" 
-	public double Arit1(String what, Var variable[], int top) {
+	//recebe string e retorna número da variavel ou constante,
+	// ex no código: "add a 2", retorna o valor contido em "a" ou a constante "2" 
+	public double valorDaVariavel(String what, Var variable[], int top) {
 		int v;
 		try {
 			v = Integer.parseInt(what);
@@ -37,7 +38,7 @@ class Arit {
 	}
 	
 	// retorna o indice que se encontra a variavel
-	public int Arit2(String what, Var variable[], int top) {
+	public int indiceDaVariavel(String what, Var variable[], int top) {
 		int who;
 		for(who = 0; who < top; who++) {
 			if (what == variable[who].getName()) {//achou
