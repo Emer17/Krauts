@@ -1,68 +1,78 @@
 class Interpreter {
 	private Var variable[];
+	private int top; //contador de números de variáveis
+	private Arit arit;
 	
 	public Interpreter( ) { //init the interpretar already whit "variable"
 		this.variable = new Var[1000];
+		this.arit = new Arit();
+		this.top = 0;
 	}
 
 	public void interpret(String lines[]) {
-		double a, b;
-		int k;
-		Arit arit = new Arit();
-		//laço da interpretação
+		System.out.println ("Debug: num linhas = "+ (lines.length));
 		for (int i = 0; i < lines.length; i++) {
-			String treated[] = new String[100];
-			treated = lines[i].split(" "); //linha tratada a ser interpretada
-			//interpreta a linha
-			for(int j = 0; j < treated.length; j++) {
-				switch (treated[j]) {
-					case "new":
-						//acha e insere no final do vetor
-						k = variable.length + 1;
-						variable[k].setName(treated[j+1]);
-						break;
+			
+			if (!(lines[i]==null)) {
+				
+				//a string no indice será quebrada em várias substrings para ser interpretada
+				String treated[];
+				treated = lines[i].split(" "); //linha tratada a ser interpretada
+				
+				
+				//interpreta a linha
+				for(int j = 0; j < treated.length; j++) {
+					int k;
+					double a, b;
+					System.out.println(treated[j]);
+					switch (treated[j]) {
+						case "new":
+							//acha e insere no final (topo) do vetor
+							variable[top] = new Var();
+							variable[top].setName(treated[j+1]);
+							top++;
+							break;
+						case "add":
+							//retorna o indice do vetor de variavel que tem aquele nome, se houver
+							a = arit.Arit1(treated[i+1], variable, top);
+							b = arit.Arit1(treated[i+2], variable, top);
+							k = arit.Arit2(treated[i-1], variable, top);
+							variable[0].setValue(arit.add(a, b));
+							break;
+						case "sub":
+							//retorna o indice do vetor de variavel que tem aquele nome, se houver
+							a = arit.Arit1(treated[i+1], variable, top);
+							b = arit.Arit1(treated[i+2], variable, top);
+							k = arit.Arit2(treated[i-1], variable, top);
+							variable[k].setValue(arit.sub(a, b));
+							break;
+						case "div":
+							//retorna o indice do vetor de variavel que tem aquele nome, se houver
+							a = arit.Arit1(treated[i+1], variable, top);
+							b = arit.Arit1(treated[i+2], variable, top);
+							k = arit.Arit2(treated[i-1], variable, top);
+							variable[k].setValue(arit.div(a, b));
+							break;
+						case "mul":
+							//retorna o indice do vetor de variavel que tem aquele nome, se houver
+							a = arit.Arit1(treated[i+1], variable, top);
+							b = arit.Arit1(treated[i+2], variable, top);
+							k = arit.Arit2(treated[i-1], variable, top);
+							variable[k].setValue(arit.mul(a, b));
+							break;
+						case "str":
 						
-					case "add":
-						//retorna o indice do vetor de variavel que tem aquele nome, se houver
-						a = arit.Arit1(treated[i+1], variable);
-						b = arit.Arit1(treated[i+2], variable);
-						k = arit.Arit2(treated[i-1], variable);
-						variable[k].setValue(arit.add(a, b));
 						break;
-					case "sub":
-						//retorna o indice do vetor de variavel que tem aquele nome, se houver
-						a = arit.Arit1(treated[i+1], variable);
-						b = arit.Arit1(treated[i+2], variable);
-						k = arit.Arit2(treated[i-1], variable);
-						variable[k].setValue(arit.sub(a, b));
+						case "prt":
+							//prt(treated[], int i);
 						break;
-					case "div":
-						//retorna o indice do vetor de variavel que tem aquele nome, se houver
-						a = arit.Arit1(treated[i+1], variable);
-						b = arit.Arit1(treated[i+2], variable);
-						k = arit.Arit2(treated[i-1], variable);
-						variable[k].setValue(arit.div(a, b));
+						default:
+						
 						break;
-					case "mul":
-						//retorna o indice do vetor de variavel que tem aquele nome, se houver
-						a = arit.Arit1(treated[i+1], variable);
-						b = arit.Arit1(treated[i+2], variable);
-						k = arit.Arit2(treated[i-1], variable);
-						variable[k].setValue(arit.mul(a, b));
-						break;
-					case "str":
-					
-					break;
-					case "prt":
-						//prt(treated[], int i);
-					break;
-					default:
-					
-					break;
+					}
 				}
-				System.out.println(variable[0].getValue());
 			}			
-		
 		}
+		System.out.println(variable[0].getValue());
 	}
 }
