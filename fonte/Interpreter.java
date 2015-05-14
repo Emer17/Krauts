@@ -1,3 +1,14 @@
+/**
+ * Krauts - an interpreted language with Assembly-like syntax
+ * Developed by Vitor G. Forbrig and Leonardo D. Constantin
+ * 
+ * Contact us: 
+ *  vitorforbrig at gmail dot com
+ *  constantin dot leo at gmail dot com
+ * 
+ * Interpreter class: recognizes and executes commands
+**/
+
 class Interpreter {
 	private Var variable[]; // Isto não deveria ficar na classe Arit?
 	private int top; //contador de números de variáveis
@@ -37,16 +48,31 @@ class Interpreter {
 						variable[top] = new Var();
 						variable[top].setName(treated[1]);
 						top++;
-						break;
+					break;
 					case "atr":
 						k = arit.indiceDaVariavel(treated[1], variable, top);
 						variable[k].setValue(arit.calculaExpressao(treated, 2, variable, top));
-						break;
+					break;
 					case "prt":
-						double resultado = arit.calculaExpressao(treated, 1, variable, top);
-						System.out.println(String.valueOf(resultado));
-						break;
-						
+						double resultado = 0.0;
+						if(treated[1].startsWith("\"")){
+							treated[1] = treated[1].substring(1, treated[1].length());
+							for(int iter = 1; iter < treated.length; iter++)
+								System.out.printf("%s", treated[iter]);
+							System.out.printf("\n");
+						}
+						else{
+							resultado = arit.calculaExpressao(treated, 1, variable, top);
+							if(arit.codigoDoOperador(treated[1]) < 5)
+								System.out.println(resultado);
+							else
+								System.out.println((resultado == 0) ? "False" : "True");
+						}
+					break;
+					//case "if":
+						//break;
+					//case "while":
+						//break;
 					/* TO-DO [2]:
 					 * implementar comparação entre variáveis
 					 * lembrar da tolerância de precisão, EPS = 1e-9
@@ -63,7 +89,7 @@ class Interpreter {
 					*/
 					default:
 						System.err.println("Syntax Error: " + treated[0]);
-						break;
+					break;
 				}
 				//}
 			}			
