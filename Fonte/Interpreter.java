@@ -9,21 +9,8 @@ class Interpreter {
 		this.top = 0;
 	}
 	
-	/* Função de interpretação recursiva 
-	 * Assim finalmente poderemos implementar
-	 * a linguagem com notação polonesa
-	 */
-	//~ private void recursion(String token[], int i){
-		//~ double op1, op2, result;
-		//~ switch(token[i]){
-			//~ case "add":
-				//~ op1 = 
-			//~ break;
-		//~ }
-	//~ }
-	
 	public void interpret(String lines[]) {
-		System.out.println ("Debug: num linhas = "+ (lines.length));
+		//System.out.println ("Debug: num linhas = "+ (lines.length));
 		for (int i = 0; i < lines.length; i++) {
 			
 			if (!(lines[i]==null)) {
