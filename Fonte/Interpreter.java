@@ -1,5 +1,5 @@
 class Interpreter {
-	private Var variable[];
+	private Var variable[]; // Isto não deveria ficar na classe Arit?
 	private int top; //contador de números de variáveis
 	private Arit arit;
 	
@@ -14,13 +14,19 @@ class Interpreter {
 		this.top = 0;
 	}
 	
+	/* TO-DO [1]:
+	 * 
+	 * Adicionar avisos de erros
+	 * Tratar erros
+	*/
 	public void interpret(String lines[]) {
 		//System.out.println ("Debug: num linhas = "+ (lines.length));
-		for (int i = 0; i < lines.length; i++) {
-			if (lines[i] != null) {
+		for (int i = 0; i < lines.length && lines[i] != null; i++) {
+			//System.out.printf("Linha %d: %s\n", i+1, lines[i]);
+			if (!(lines[i].startsWith("~") || lines[i].isEmpty())) {
 				//a string no indice será quebrada em várias substrings para ser interpretada
-				String treated[];
-				treated = lines[i].split("~"); // Esta linha dispensa comentarios
+				String treated[] = lines[i].split("~"); 
+				// Esta linhas dispensam comentarios
 				// Trocadilho nao-intencional :v
 				treated = treated[0].split(" "); //linha tratada a ser interpretada
 				//interpreta a linha
@@ -41,7 +47,7 @@ class Interpreter {
 						System.out.println(String.valueOf(resultado));
 						break;
 						
-					/* TO-DO:
+					/* TO-DO [2]:
 					 * implementar comparação entre variáveis
 					 * lembrar da tolerância de precisão, EPS = 1e-9
 					 * menor que: 		"LT"

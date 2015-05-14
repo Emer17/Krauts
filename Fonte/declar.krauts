@@ -1,6 +1,17 @@
 NEW ovo 
 ~ ainda tá em tempo de mudar o caractere delimitador de comentários
-~ viu?
-ATR ovo add 25 -15
+~	 viu?
+ATR ovo add 25 -15~ 10
+prt ovo
+new day
+atr day mul ovo 100 ~ 1000
+prt day
+new moon
+~~~
+atr moon sub day 590
+PRT moon ~ 410
 
-PRT mul ovo 1000 
+
+
+
+
