@@ -1,7 +1,7 @@
 /*
  this is the class that store all program variables
 */
-class Var {
+class Var implements Comparable<Var> {
 	private String name;
 	private double value;
 	
@@ -14,4 +14,8 @@ class Var {
 	
 	public String getName() { return this.name; }
 	public double getValue() { return this.value; }
+	
+	public int compareTo(Var otherVar) {
+        return this.name.compareTo(otherVar.getName());
+    }
 }
