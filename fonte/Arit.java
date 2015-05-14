@@ -50,7 +50,7 @@ class Arit {
 		return false;
 	}
 	
-	public double avaliaExpressao(String token[], int idx, Var variable[], int top){
+	public double calculaExpressao(String token[], int idx, Var variable[], int top){
 		double operando, op1, op2, result = 0.0;
 		Stack<Double> p = new Stack<Double>();
 		

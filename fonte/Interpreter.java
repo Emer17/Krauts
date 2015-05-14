@@ -40,10 +40,10 @@ class Interpreter {
 						break;
 					case "atr":
 						k = arit.indiceDaVariavel(treated[1], variable, top);
-						variable[k].setValue(arit.avaliaExpressao(treated, 2, variable, top));
+						variable[k].setValue(arit.calculaExpressao(treated, 2, variable, top));
 						break;
 					case "prt":
-						double resultado = arit.avaliaExpressao(treated, 1, variable, top);
+						double resultado = arit.calculaExpressao(treated, 1, variable, top);
 						System.out.println(String.valueOf(resultado));
 						break;
 						
