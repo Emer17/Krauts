@@ -18,9 +18,9 @@ class Arit {
 	//recebe string e retorna número da variavel ou constante,
 	// ex no código: "add a 2", retorna o valor contido em "a" ou a constante "2" 
 	public double valorDaVariavel(String what, Var variable[], int top) {
-		int v;
+		double v;
 		try {
-			v = Integer.parseInt(what);
+			v = Double.parseDouble(what);
 			return v;
 			
 		} catch(Exception e) {
