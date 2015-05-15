@@ -1,0 +1,21 @@
+new n
+new i
+new flag       ~ 0 na flag pra saber se é primo
+atr flag 0
+atr n 17		~ número a ser testado
+atr i add n 0    ~ i = 3
+atr i sub i 1        ~ n = n -1
+while gt i 1
+	prt i
+	if eq 0 mod n i  
+		atr flag 1
+	fi
+	atr i sub i 1
+done
+if eq flag 0
+	prt "é primo
+fi
+if neq flag 0
+	prt "não é primo
+fi
+
