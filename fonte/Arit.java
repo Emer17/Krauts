@@ -87,7 +87,7 @@ class Arit {
 				}
 			break;
 			case "mod":
-				try{ result = op1 % op2; }
+				try{ result = (int) op1 % (int) op2; }
 				catch(Exception e){
 					mostraErro(0);
 				}
@@ -186,28 +186,40 @@ class Arit {
 	private static boolean cmp_geq(double x, double y) {return cmp(x, y) >= 0;}
 	private static boolean cmp_neq(double x, double y) {return cmp(x, y) != 0;}
 	
+	public void erro(int e){
+		switch(e){ 
+			case 0: 
+				System.out.printf("ERROR(0): Division by zero\n");
+			break;
+			case 1:
+				System.out.printf("ERROR(1): Variable already exists\n");
+			break;
+			case 2:
+				System.out.printf("ERROR(2): Variables limit exceeded\n");
+			break;
+			case 3: 
+				System.out.printf("ERROR(3): Syntax error\n");
+			break;
+			case 4: 
+				System.out.printf("ERROR(4): Unexisting variable\n");
+			break;
+			case 5: 
+				System.out.printf("ERROR(5): Scope error\n");
+			break;
+			case 6: 
+				System.out.printf("ERROR(6): Variable names must begin with a letter\n");
+			break;
+		}
+	}
 	
 	public void mostraErro(int e){
-        switch(e){ 
-			case 0: 
-                System.out.printf("ERROR(0): Division by zero\n");
-			break;
-            case 1:
-                System.out.printf("ERROR(1): Variable already exists\n");
-			break;
-            case 2:
-                System.out.printf("ERROR(2): Variables limit exceeded\n");
-			break;
-            case 3: 
-                System.out.printf("ERROR(3): Syntax error\n");
-			break;
-            case 4: 
-                System.out.printf("ERROR(4): Unexisting variable\n");
-			break;
-            case 5: 
-                System.out.printf("ERROR(5): Scope error.\n");
-			break;
-        }
-        System.exit(1);
-    }
+		erro(e);
+		System.exit(1);
+	}
+	
+	public void mostraErroComDetalhes(int e, String details){
+		erro(e);
+		System.out.println("Error details:\n\t" + details);
+		System.exit(1);
+	}
 }

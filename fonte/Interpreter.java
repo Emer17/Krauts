@@ -15,6 +15,8 @@ class Interpreter {
 	private int top; //contador de números de variáveis
 	private Arit arit;
 	private Stack<Integer> loop;
+	private static int flagIf, flagLoop;
+	private int scopeCounter, condCounter;
 	
 	/* TO-DO: (mero detalhe)
 	 * substituir o método de armazenamento
@@ -26,15 +28,45 @@ class Interpreter {
 		this.arit = new Arit();
 		this.top = 0;
 		this.loop = new Stack<Integer>();
+		this.flagIf = 0;
+		this.flagLoop = 0;
+		this.scopeCounter = 0;
+		this.condCounter = 0;
 	}
 	
 	public void interpret(String lines[]) {
 		for (int i = 0; i < lines.length && lines[i] != null; i++) {
-			lines[i].replace("\t", "");
-			
 			if (!(lines[i].startsWith("~") || lines[i].trim().isEmpty())) {
-				executa(lines[i]);
+				// Se não for imprimir mensagem, "enxuga" os espaços excessivos da linha
+				if(lines[i].toLowerCase().trim().contains("prt\"") == false){
+					lines[i] = lines[i].replace("\t","");
+					lines[i] = lines[i].trim();
+				}
+				
+				// verifica abertura e fechamento de escopos
+				if(lines[i].toLowerCase().contains("if"))
+					scopeCounter++;
+				
+				if(lines[i].toLowerCase().contains("fi"))
+					scopeCounter--;
+				
+				if(lines[i].toLowerCase().contains("fi") && (condCounter == 0)){
+					flagIf = 0;
+				}
+				
+				if(flagIf == 1 && lines[i].toLowerCase().contains("if"))
+					condCounter++;
+				
+				if(flagIf == 1 && lines[i].toLowerCase().contains("fi")) 
+					condCounter--;
+				//---------------------------------------------------------------------------------------------------------
+				//invoca o método tokens quando quando os flags das condições dos "se" e "enquanto" forem verdadeiras
+				if(flagIf == 0 && flagLoop == 0) 
+					executa(lines[i]);
 			}			
+		}
+		if(this.scopeCounter != 0){
+			arit.mostraErro(5);
 		}
 	}
 	
@@ -45,9 +77,13 @@ class Interpreter {
 		treated = treated[0].split(" "); //linha tratada a ser interpretada
 		//interpreta a linha
 		int k;
+		boolean validaNome = 
+			treated.length > 1 ? Character.isLetter(treated[1].charAt(0)) : false;
 		switch (treated[0].toLowerCase()) {
 			case "new":
 				//acha e insere no final (topo) do vetor
+				if(validaNome == false)
+					arit.mostraErro(6);
 				if(arit.indiceDaVariavel(treated[1], variable, top) != -1){
 					arit.mostraErro(1);
 				}
@@ -61,9 +97,11 @@ class Interpreter {
 			break;
 			
 			case "atr":
+				if(validaNome == false)
+					arit.mostraErroComDetalhes(3, "Invalid variable name: " + treated[1]);
 				k = arit.indiceDaVariavel(treated[1], variable, top);
 				if(k == -1){
-					arit.mostraErro(5);
+					arit.mostraErro(4);
 				}
 				variable[k].setValue(arit.calculaExpressao(treated, 2, variable, top));
 			break;
@@ -84,13 +122,15 @@ class Interpreter {
 						System.out.println((resultado == 0) ? "False" : "True");
 				}
 			break;
-			//case "if":
-				//break;
+			case "if":
+				if(arit.calculaExpressao(treated, 1, variable, top) == 0)
+					flagIf = 1;
+			break;
+			case "fi": break;
 			//case "while":
 				//break;
 				
 			/* TO-DO [1]: 
-			 * implementar "IF" (delimitado por FI)
 			 * implementar "WHILE" (delimitado por DONE)
 			*/
 			default:
