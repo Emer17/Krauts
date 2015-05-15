@@ -2,6 +2,7 @@
 *.class
 *.krauts
 *.Krauts
-*.odt*
+*.sh
+.*.odt
 classes*
 !exemplos/*
