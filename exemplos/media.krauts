@@ -1,0 +1,8 @@
+new i
+new j
+new media
+atr i 7.5
+atr j 7.5
+atr media add i j
+atr media div media 2
+prt media
