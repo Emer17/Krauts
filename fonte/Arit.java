@@ -6,7 +6,7 @@
  *  vitorforbrig at gmail dot com
  *  constantin dot leo at gmail dot com
  * 
- * Arit class: Arithmetic and Logic Unit
+ * Arit class: Arithmetic and Logic Unit, also responsible for error warnings
 **/
 
 import java.util.*;
@@ -21,16 +21,8 @@ class Arit {
 			return v;	
 		} 
 		catch(Exception e) {
-			int i;
-			double g;
-			// what nao eh int, eh uma coisa louca(procura nas variaveis)
-			for(i = 0; i < top; i++) {
-				if (what.equals(variable[i].getName())) { //achou
-					break;
-				}
-			}
-			g = variable[i].getValue();
-			return g;
+			int i = indiceDaVariavel(what, variable, top);
+			return variable[i].getValue();
 		}
 	}
 	
@@ -165,17 +157,16 @@ class Arit {
 		Stack<Double> p = new Stack<Double>();
 		
 		for (int i = token.length - 1; i >= idx; i--){
-			if(codigoDoOperador(token[i]) != -1){
-				op1 = p.pop();
-				op2 = p.pop();
-				result = ALU(token[i], op1, op2);
-				if(token[i].toLowerCase().equals("not"))
-					p.push(op2);
-				p.push(result);
-			}
-			else{
+			if(codigoDoOperador(token[i]) == -1){
+				// token é um operando
 				double operando = valorDaVariavel(token[i], variable, top);
 				p.push(operando);
+			}
+			else{ // token é um operador
+				op1 = p.pop();
+				op2 = (token[i].toLowerCase().equals("not")) ? 0.0 : p.pop(); 
+				result = ALU(token[i], op1, op2);
+				p.push(result);
 			}
 		}
 		
@@ -211,16 +202,10 @@ class Arit {
                 System.out.printf("ERROR(3): Syntax error\n");
 			break;
             case 4: 
-                System.out.printf("ERROR(4): Tried to print unexisting variable\n");
+                System.out.printf("ERROR(4): Unexisting variable\n");
 			break;
             case 5: 
-                System.out.printf("ERROR(5): Variable doesn\'t exist\n");
-			break;
-            case 6: 
-                System.out.printf("ERROR(6): Scope error.\n");
-			break;
-            case 7: 
-                System.out.printf("ERROR(7): Invalid comparison\n");
+                System.out.printf("ERROR(5): Scope error.\n");
 			break;
         }
         System.exit(1);

@@ -1,0 +1,7 @@
+new var
+PRT add 2 2
+prt sub 3 10
+prt mul 2 3
+prt div 12 3
+atr var 100
+prt var
