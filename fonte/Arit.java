@@ -144,6 +144,10 @@ class Arit {
 				result = (cmp_eq(op1, 0) && cmp_eq(op2, 0))
 					? 1 : 0;
 			break;
+			case "xnor":
+				result = (cmp_eq(op1, 0) ^ cmp_eq(op2, 0))
+					? 0 : 1;
+			break;
 			
 			default:
 				mostraErro(3);
