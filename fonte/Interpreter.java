@@ -26,15 +26,13 @@ class Interpreter {
 	}
 	
 	public void interpret(String lines[]) {
-		//System.out.println ("Debug: num linhas = "+ (lines.length));
 		for (int i = 0; i < lines.length && lines[i] != null; i++) {
-			//System.out.printf("Linha %d: %s\n", i+1, lines[i]);
 			lines[i].replace("\t", "");
+			
 			if (!(lines[i].startsWith("~") || lines[i].isEmpty())) {
-				//a string no indice será quebrada em várias substrings para ser interpretada
 				String treated[] = lines[i].split("~"); 
-				// Esta linhas dispensam comentarios
-				// Trocadilho nao-intencional :v
+				// Esta linha dispensa comentarios
+				
 				treated = treated[0].split(" "); //linha tratada a ser interpretada
 				//interpreta a linha
 				int k;
