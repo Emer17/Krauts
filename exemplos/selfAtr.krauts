@@ -1,0 +1,8 @@
+new var
+atr var 0
+prt var
+atr var add var 50
+prt var
+atr var add var 12
+prt var
+prt ""EUREKA"

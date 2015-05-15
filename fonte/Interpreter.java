@@ -25,15 +25,11 @@ class Interpreter {
 		this.top = 0;
 	}
 	
-	/* TO-DO [1]:
-	 * 
-	 * Adicionar avisos de erros
-	 * Tratar erros
-	*/
 	public void interpret(String lines[]) {
 		//System.out.println ("Debug: num linhas = "+ (lines.length));
 		for (int i = 0; i < lines.length && lines[i] != null; i++) {
 			//System.out.printf("Linha %d: %s\n", i+1, lines[i]);
+			lines[i].replace("\t", "");
 			if (!(lines[i].startsWith("~") || lines[i].isEmpty())) {
 				//a string no indice será quebrada em várias substrings para ser interpretada
 				String treated[] = lines[i].split("~"); 
@@ -57,8 +53,9 @@ class Interpreter {
 						double resultado = 0.0;
 						if(treated[1].startsWith("\"")){
 							treated[1] = treated[1].substring(1, treated[1].length());
-							for(int iter = 1; iter < treated.length; iter++)
-								System.out.printf("%s", treated[iter]);
+							for(int iter = 1; iter < treated.length; iter++){
+								System.out.printf("%s%s", (iter > 1) ? " " : "", treated[iter]);
+							}
 							System.out.printf("\n");
 						}
 						else{
@@ -73,22 +70,14 @@ class Interpreter {
 						//break;
 					//case "while":
 						//break;
-					/* TO-DO [2]:
-					 * implementar comparação entre variáveis
-					 * lembrar da tolerância de precisão, EPS = 1e-9
-					 * menor que: 		"LT"
-					 * menor ou igual: 	"LEQ"
-					 * igual: 			"EQ"
-					 * maior ou igual: 	"GEQ"
-					 * maior: 			"GT"
-					 * diferente:		"NEQ" (Not EQual)
-					 * 
+						
+					/* TO-DO [1]: 
 					 * implementar "WHILE" (delimitado por DONE)
-					 * implementar "IF" (delimitado por ENDIF)
+					 * implementar "IF" (delimitado por FI)
 					 * se possível, com "ELSE" e/ou "ELIF"
 					*/
 					default:
-						System.err.println("Syntax Error: " + treated[0]);
+						arit.mostraErro(3);
 					break;
 				}
 				//}

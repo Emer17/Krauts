@@ -1,0 +1,6 @@
+~new bool
+prt xor 1 0 ~true
+prt eq 100 15 ~false
+prt eq add 2 2 mul 2 2 ~true
+prt "não hahahahahaha
+prt "leticia

@@ -1,0 +1,10 @@
+new a
+new b
+
+atr a add 1 1
+atr b add 3 a
+
+prt a
+prt b
+
+~ SUCCESSFUL
