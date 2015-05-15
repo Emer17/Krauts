@@ -217,9 +217,14 @@ class Arit {
 		System.exit(1);
 	}
 	
-	public void mostraErroComDetalhes(int e, String details){
+	public void mostraErro(int e, String details){
 		erro(e);
 		System.out.println("Error details:\n\t" + details);
+		System.exit(1);
+	}
+	
+	public void mostraErro(String description){
+		System.out.println(description);
 		System.exit(1);
 	}
 }

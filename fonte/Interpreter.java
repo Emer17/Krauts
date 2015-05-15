@@ -12,11 +12,10 @@ import java.util.*;
 
 class Interpreter {
 	private Var variable[];
-	private int top; //contador de números de variáveis
+	private int i, top, scopeCounter, condCounter; //contador de números de variáveis
 	private Arit arit;
 	private Stack<Integer> loop;
 	private static int flagIf, flagLoop;
-	private int scopeCounter, condCounter;
 	
 	/* TO-DO: (mero detalhe)
 	 * substituir o método de armazenamento
@@ -35,22 +34,37 @@ class Interpreter {
 	}
 	
 	public void interpret(String lines[]) {
-		for (int i = 0; i < lines.length && lines[i] != null; i++) {
+		String dummy; // String criada para evitar repetir código e funções
+		
+		for (i = 0; i < lines.length && lines[i] != null; i++) {
 			if (!(lines[i].startsWith("~") || lines[i].trim().isEmpty())) {
 				// Se não for imprimir mensagem, "enxuga" os espaços excessivos da linha
-				if(lines[i].toLowerCase().trim().contains("prt\"") == false){
+				dummy = lines[i].toLowerCase();
+				
+				if(dummy.trim().contains("prt\"") == false){
 					lines[i] = lines[i].replace("\t","");
 					lines[i] = lines[i].trim();
 				}
 				
-				// verifica abertura e fechamento de escopos
-				if(lines[i].toLowerCase().contains("if"))
-					scopeCounter++;
+				if(dummy.contains("while") && flagLoop != 0)
+					flagLoop++;
 				
-				if(lines[i].toLowerCase().contains("fi"))
+				if(dummy.contains("done") && flagLoop != 0)
+					flagLoop--;
+				
+				else if(dummy.contains("done") && flagLoop == 0){
+					i = loop.pop();
+					dummy = lines[i].toLowerCase();
+					scopeCounter--;
+				}
+				// verifica abertura e fechamento de escopos
+				if(dummy.contains("if") || dummy.contains("while"))
+					scopeCounter++;
+					
+				if(dummy.contains("fi") || dummy.contains("done"))
 					scopeCounter--;
 				
-				if(lines[i].toLowerCase().contains("fi") && (condCounter == 0)){
+				if(dummy.contains("fi") && (condCounter == 0)){
 					flagIf = 0;
 				}
 				
@@ -98,7 +112,7 @@ class Interpreter {
 			
 			case "atr":
 				if(validaNome == false)
-					arit.mostraErroComDetalhes(3, "Invalid variable name: " + treated[1]);
+					arit.mostraErro(3, "Invalid variable name: " + treated[1]);
 				k = arit.indiceDaVariavel(treated[1], variable, top);
 				if(k == -1){
 					arit.mostraErro(4);
@@ -127,12 +141,14 @@ class Interpreter {
 					flagIf = 1;
 			break;
 			case "fi": break;
-			//case "while":
-				//break;
-				
-			/* TO-DO [1]: 
-			 * implementar "WHILE" (delimitado por DONE)
-			*/
+			
+			case "while":
+				if(arit.calculaExpressao(treated, 1, variable, top) == 0)
+					flagLoop++;
+				else loop.push(i);
+			break;
+			case "done": break;
+			
 			default:
 				arit.mostraErro(3);
 			break;
