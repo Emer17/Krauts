@@ -1,0 +1,9 @@
+new a
+atr a 255
+if eq 5 div a 51
+	prt "Correct!
+fi
+atr a 512
+if eq 8 div a 64
+	prt "Espanha
+fi

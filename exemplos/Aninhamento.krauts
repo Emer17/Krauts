@@ -1,0 +1,23 @@
+new i
+new j
+atr i 0
+atr j i
+
+while lt i 3
+	if eq i 0
+		prt "Zero
+	fi
+	if not eq i 0
+		prt "Outro
+	fi
+	atr i add i 1
+done
+
+if eq i 3
+	if eq j 0
+		prt "Ok!
+	fi
+	if not eq j 0
+		prt "Erro!
+	fi
+fi

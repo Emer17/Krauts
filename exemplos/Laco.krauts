@@ -1,0 +1,6 @@
+new i
+atr i 0
+while lt i 10
+	prt i
+	atr i add i 1
+done
