@@ -18,23 +18,20 @@ class Krauts {
 		Interpreter Inter;
 		String linhas[] = new String[2000];
 		
-		//~ try{	
-			//~ 
-		//~ }
-		//~ catch(Exception e){
-			//~ System.out.println("FATAL: " + ((args.length > 0) 
-				//~ ? "could not read file " + args[0]
-				//~ : "no input file"));
-            //~ System.out.println("Usage: java Krauts /path/to/file.krauts");
-            //~ System.exit(1);
-		//~ }
-		
 		f = new File(args[0]);
 		s = new Scanner(f);
-			
+		
+		
+		String verificador;
+		
 		int i = 0;
 		while(s.hasNext()) {
-			linhas[i] = s.nextLine();
+			//verificador = s.nextLine();
+			//if(verificador != null || !verificador.isEmpty()){
+				linhas[i] = s.nextLine();
+			//	linhas[i] = verificador;
+			//System.out.println(linhas[i]);
+			//}
 			i++;
 		}
 		

@@ -1,3 +1,41 @@
+class Funcao{
+	
+	
+
+	public void semRetorno(String v[]){
+		Interpreter t = new Interpreter();
+		v = Vremovenull(v);
+		for(int y = 0; y < v.length; y++){
+			//System.out.println(v[y]);
+		}
+		t.interpret(v);
+	}
+	
+	public String[] Vremovenull(String l[]){
+		int w = 0;
+		String linhas[];
+
+		while(true){
+			if(l[w] != null){
+				w++;
+			}
+			else{
+				break;
+			}
+		}
+
+		linhas = new String[w];
+		w--;
+
+		while((w + 1) != 0){
+			linhas[w] = l[w];
+			w--;
+		}
+
+		return linhas;
+	}
+}
+
 /**
  * Krauts - an interpreted language with Assembly-like syntax
  * Developed by Vitor G. Forbrig and Leonardo D. Constantin
@@ -8,7 +46,7 @@
  * 
  * Interpreter class: recognizes and executes commands
 **/
-
+/*
 import java.util.*;
 
 class Interpreter {
@@ -26,6 +64,7 @@ class Interpreter {
 	 * das variáveis por algo mais eficiente, 
 	 * como o TreeSet do Java.
 	*/
+	/*
 	public Interpreter( ) { //init the interpretar already whit "variable"
 		this.variable = new Var[1000];
 		this.arit = new Arit();
@@ -41,22 +80,31 @@ class Interpreter {
 		String dummy; // String criada para evitar repetir código e funções
 		
 		//------------------------------------------------------------------------------------------------------
-		int z,x = 0,cont =0,inicio = 0; //vai ter o indice da linha onde o primeiro comando real vai estar (um comando fora de funçao.)
-		for(z = 0; z < lines.length; z++){
-			if(lines[z].contains("{")) cont++;
-			else if(lines[z].contains("}")) cont--;
-			
-			if(lines[z].contains("new") && cont == 0 || lines[z].contains("prt") && cont == 0){
+		int inicio = 0; //vai ter o indice da linha onde o primeiro comando real vai estar (um comando fora de funçao.)
+		
+		this.ggizi = new String[30]; //-----------------------------TAMANHO 30 É UM TESTE, TEM QUE VER ISSO FERA.
+		int z,w = 0;
+		for( z = 0; z < lines.length; z++){
+			if(lines[z] != null && !lines[z].isEmpty() && lines[z].contains("{")){
+				while(!lines[z].contains("}")){
+					//System.out.println("aqui2 " + lines[z]);
+					this.ggizi[w] = lines[z];
+					w++;
+					z++;
+				}
+				this.ggizi[w] = lines[z];
+			}
+		}
+		z = 0;
+		while(z < lines.length){
+			System.out.println("z "+ z);
+			if(lines[z].contains("new") && lines[z-1].contains("}") || lines[z].contains("prt") && lines[z-1].contains("}")){ //o prog. provavelmente vai ser iniciado com uma var. ou com print.
 				inicio = z;
 				break;
 			}
+			z++;
 		}
-		this.ggizi = new String[inicio];
-		for(z = 0; z < ggizi.length; z++){
-			ggizi[x] = lines[z];
-			//System.out.println("ggizi "+ggizi[x]); //veja a ggizi...
-			x++;
-		}
+		//System.out.println("teste" + inicio);
 		
 		//-------------------------------------------------------------------------------------------------------
 		
@@ -183,21 +231,23 @@ class Interpreter {
 				else loop.push(i);
 			break;
 
-			case "func": //sem parametro e sem retorno.. por enquanto.
+			case "func": //tenho que criar um vetor novo de variaveis.
+				//treated[1].replaceAll(" ","");
+				//System.out.println(treated[1]);
 				String v[] = new String[30];
+				//String v2[] = new String[30];
 				int x = 0;
 				for(int z = 0; z < this.ggizi.length; z++){
 					if(ggizi[z].contains(treated[1])){
-						while(z < ggizi.length){
-							if(ggizi[z].contains("new") || ggizi[z].contains("prt") || ggizi[z].contains("atr") ||ggizi[z].contains("if")
-								||ggizi[z].contains("fi") ||ggizi[z].contains("while") ||ggizi[z].contains("done")){
-									
-									v[x] = ggizi[z];
-									x++;
-								}else if(ggizi[z].contains("}")){
-									break;
-								}
-								z++;
+						z++;
+						while(!ggizi[z].equals("}")){
+							v[x] = ggizi[z];
+							x++;
+							z++;
+						}
+						//int aux = 0;
+						for(int y = 0; y < v.length; y++){
+							System.out.println(v[y]);
 						}
 						f.semRetorno(v);
 						break;
@@ -214,4 +264,4 @@ class Interpreter {
 		}
 	}
 	
-}
+}*/

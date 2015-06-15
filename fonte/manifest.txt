@@ -1,1 +1,36 @@
-Main-Class: Krauts
+function Soma(){
+new a
+new b
+new c
+atr a 2
+atr b 3
+atr c add a b
+prt c
+}
+
+function Sub(){
+new a
+new b
+new c
+atr a 5
+atr b 2
+atr c sub a b
+prt c
+}
+
+function Print(){
+prt "oi
+prt "eu
+prt "sou
+prt "uma
+prt "funcao
+prt "teste
+prt "!
+}
+
+new a
+atr a 1
+func Soma()
+prt "oi
+func Sub()
+func Print()
