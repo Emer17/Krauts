@@ -1,3 +1,9 @@
+function double Soma(double a,double b){
+new c
+atr c add a b
+return c
+}
+
 function Soma(){
 new a
 new b
@@ -12,8 +18,8 @@ function Sub(){
 new a
 new b
 new c
-atr a 5
-atr b 2
+atr a 20
+atr b 3
 atr c sub a b
 prt c
 }
@@ -29,8 +35,11 @@ prt "!
 }
 
 new a
-atr a 1
-func Soma()
+~return a
+~prt a
+~atr a 1
+~func Soma()
 prt "oi
 func Sub()
-func Print()
+~func Print()
+~atr a func Soma(parametros)

@@ -26,12 +26,8 @@ class Krauts {
 		
 		int i = 0;
 		while(s.hasNext()) {
-			//verificador = s.nextLine();
-			//if(verificador != null || !verificador.isEmpty()){
 				linhas[i] = s.nextLine();
-			//	linhas[i] = verificador;
-			//System.out.println(linhas[i]);
-			//}
+
 			i++;
 		}
 		

@@ -18,7 +18,7 @@ class Interpreter {
 	private Stack<Integer> loop;
 	private static int flagIf, flagLoop;
 	private Funcao f = new Funcao();
-	public String ggizi[];
+	public String ggizi[]; //vetor que guarda SOMENTE o escopo das funçoes.
 	
 	
 	/* TO-DO: (mero detalhe)
@@ -41,7 +41,7 @@ class Interpreter {
 		String dummy; // String criada para evitar repetir código e funções
 		
 		//------------------------------------------------------------------------------------------------------
-		int z,x = 0,cont =0,inicio = 0; //vai ter o indice da linha onde o primeiro comando real vai estar (um comando fora de funçao.)
+		int z,x = 0,cont =0,inicio = 0,aux; //vai ter o indice da linha onde o primeiro comando real vai estar (um comando fora de funçao.)
 		for(z = 0; z < lines.length; z++){
 			if(lines[z].contains("{")) cont++;
 			else if(lines[z].contains("}")) cont--;
@@ -51,6 +51,17 @@ class Interpreter {
 				break;
 			}
 		}
+		aux = inicio;
+		while(aux < lines.length){
+			if(lines[aux] != null){
+				if(lines[aux].contains("{")){
+					arit.mostraErro(8);
+					break;
+				}
+			}
+			aux++;
+		}
+		
 		this.ggizi = new String[inicio];
 		for(z = 0; z < ggizi.length; z++){
 			ggizi[x] = lines[z];
@@ -184,27 +195,41 @@ class Interpreter {
 			break;
 
 			case "func": //sem parametro e sem retorno.. por enquanto.
-				String v[] = new String[30];
-				int x = 0;
+				String v[] = new String[ggizi.length];
+				int iniciofunc = 0,x = 0;
+				int vitor = 0;
 				for(int z = 0; z < this.ggizi.length; z++){
-					if(ggizi[z].contains(treated[1])){
-						while(z < ggizi.length){
-							if(ggizi[z].contains("new") || ggizi[z].contains("prt") || ggizi[z].contains("atr") ||ggizi[z].contains("if")
-								||ggizi[z].contains("fi") ||ggizi[z].contains("while") ||ggizi[z].contains("done")){
-									
-									v[x] = ggizi[z];
-									x++;
-								}else if(ggizi[z].contains("}")){
-									break;
+					iniciofunc = z;
+					if(ggizi[iniciofunc].contains("double")){
+						//
+					}else{
+						if(ggizi[z].contains(treated[1])){
+							//System.out.println(ggizi[z]);
+							vitor++;
+							while(z < ggizi.length){
+								if(ggizi[z].contains("new") || ggizi[z].contains("prt") || ggizi[z].contains("atr") ||ggizi[z].contains("if")
+									||ggizi[z].contains("fi") ||ggizi[z].contains("while") ||ggizi[z].contains("done")){
+										
+										v[x] = ggizi[z];
+										x++;
+									}else if(ggizi[z].contains("}")){
+										break;
+									}
+									z++;
 								}
-								z++;
+								f.semRetorno(v);
+								break;
+							}
 						}
-						f.semRetorno(v);
-						break;
 					}
-				}
-				break;
+					if(vitor == 0)
+						arit.mostraErro(7);
+					break;
 				
+			case "return":
+			//
+			break;
+							
 			case "done": break;
 			
 				

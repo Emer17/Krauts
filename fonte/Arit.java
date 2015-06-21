@@ -213,6 +213,12 @@ class Arit {
 			case 6: 
 				System.out.printf("ERROR(6): Variable names must begin with a letter\n");
 			break;
+			case 7: 
+				System.out.printf("ERROR(7): Call nonexistent FUNCTION\n");
+			break;
+			case 8: 
+				System.out.printf("ERROR(8): function described in the main! check!\n");
+			break;
 		}
 	}
 	
