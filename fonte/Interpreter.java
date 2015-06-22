@@ -164,6 +164,28 @@ class Interpreter {
 			break;
 
 			case "atr":
+				if(treated[2].contains("func")){
+					String v2[] = new String[ggizi.length]; //no maximo o tamanho de ggizi
+					int w,x = 0;
+					double resultado = 0.0;
+
+					for(w = 0; w < ggizi.length;w++){
+						if(ggizi[w].contains("double") && ggizi[w].contains(treated[3])){
+							w++;
+							while(!ggizi[w].contains("}")){
+								v2[x] = ggizi[w];
+								x++;
+								w++;
+							}
+						break;
+						}
+					}
+					v2 = f.Vremovenull(v2);
+					resultado = f.comRetorno(v2);
+					k = arit.indiceDaVariavel(treated[1], variable, top);
+					variable[k].setValue(resultado,0);
+					break;
+				}
 				if(tokens.contains("[")){
 					String nome[] = treated[1].split("\\[");// quebra no [, caso vim o nome a[], fica so a;
 					nome[0] = nome[0].replaceAll(" ", "");
