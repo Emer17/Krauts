@@ -1,5 +1,9 @@
-function double Soma(double a,double b){
+function double Teste(){
+new a
+new b
 new c
+atr a 2
+atr b 3
 atr c add a b
 return c
 }
@@ -24,22 +28,8 @@ atr c sub a b
 prt c
 }
 
-function Print(){
-prt "oi
-prt "eu
-prt "sou
-prt "uma
-prt "funcao
-prt "teste
-prt "!
-}
-
 new a
-~return a
-~prt a
-~atr a 1
-~func Soma()
-prt "oi
+atr a 0
+atr a func Teste()
+prt a
 func Sub()
-~func Print()
-~atr a func Soma(parametros)

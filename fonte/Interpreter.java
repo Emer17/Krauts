@@ -12,7 +12,7 @@
 import java.util.*;
 
 class Interpreter {
-	private Var variable[];
+	public Var variable[];
 	private int i, top, scopeCounter, condCounter; //contador de números de variáveis
 	private Arit arit;
 	private Stack<Integer> loop;
@@ -157,6 +157,29 @@ class Interpreter {
 			break;
 			
 			case "atr":
+				if(treated[2].contains("func")){
+					String v2[] = new String[ggizi.length]; //no maximo o tamanho de ggizi
+					int w,x = 0;
+					double resultado = 0.0;
+					
+					for(w = 0; w < ggizi.length;w++){
+						if(ggizi[w].contains("double") && ggizi[w].contains(treated[3])){
+							w++;
+							while(!ggizi[w].contains("}")){
+								v2[x] = ggizi[w];
+								x++;
+								w++;
+							}
+							break;
+						}
+					}
+					
+					v2 = f.Vremovenull(v2);
+					resultado = f.comRetorno(v2);
+					k = arit.indiceDaVariavel(treated[1], variable, top);
+					variable[k].setValue(resultado);
+					break;
+				}
 				if(validaNome == false)
 					arit.mostraErro(3, "Invalid variable name: " + treated[1]);
 				k = arit.indiceDaVariavel(treated[1], variable, top);
@@ -199,27 +222,22 @@ class Interpreter {
 				int iniciofunc = 0,x = 0;
 				int vitor = 0;
 				for(int z = 0; z < this.ggizi.length; z++){
-					iniciofunc = z;
-					if(ggizi[iniciofunc].contains("double")){
-						//
-					}else{
-						if(ggizi[z].contains(treated[1])){
-							//System.out.println(ggizi[z]);
-							vitor++;
-							while(z < ggizi.length){
-								if(ggizi[z].contains("new") || ggizi[z].contains("prt") || ggizi[z].contains("atr") ||ggizi[z].contains("if")
-									||ggizi[z].contains("fi") ||ggizi[z].contains("while") ||ggizi[z].contains("done")){
-										
-										v[x] = ggizi[z];
-										x++;
-									}else if(ggizi[z].contains("}")){
-										break;
-									}
-									z++;
+					if(ggizi[z].contains(treated[1])){
+						//System.out.println(ggizi[z]);
+						vitor++;
+						while(z < ggizi.length){
+							if(ggizi[z].contains("new") || ggizi[z].contains("prt") || ggizi[z].contains("atr") ||ggizi[z].contains("if")
+								||ggizi[z].contains("fi") ||ggizi[z].contains("while") ||ggizi[z].contains("done")){
+									
+									v[x] = ggizi[z];
+									x++;
+								}else if(ggizi[z].contains("}")){
+									break;
 								}
-								f.semRetorno(v);
-								break;
+								z++;
 							}
+							f.semRetorno(v);
+							break;
 						}
 					}
 					if(vitor == 0)
@@ -227,7 +245,6 @@ class Interpreter {
 					break;
 				
 			case "return":
-			//
 			break;
 							
 			case "done": break;
