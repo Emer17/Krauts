@@ -1,11 +1,11 @@
 /**
  * Krauts - an interpreted language with Assembly-like syntax
  * Developed by Vitor G. Forbrig and Leonardo D. Constantin
- * 
- * Contact us: 
+ *
+ * Contact us:
  *  vitorforbrig at gmail dot com
  *  constantin dot leo at gmail dot com
- * 
+ *
  * Interpreter class: recognizes and executes commands
 **/
 
@@ -19,11 +19,11 @@ class Interpreter {
 	private static int flagIf, flagLoop;
 	private Funcao f = new Funcao();
 	public String ggizi[]; //vetor que guarda SOMENTE o escopo das funçoes.
-	
-	
+
+
 	/* TO-DO: (mero detalhe)
 	 * substituir o método de armazenamento
-	 * das variáveis por algo mais eficiente, 
+	 * das variáveis por algo mais eficiente,
 	 * como o TreeSet do Java.
 	*/
 	public Interpreter( ) { //init the interpretar already whit "variable"
@@ -36,16 +36,16 @@ class Interpreter {
 		this.scopeCounter = 0;
 		this.condCounter = 0;
 	}
-	
+
 	public void interpret(String lines[]) {
 		String dummy; // String criada para evitar repetir código e funções
-		
+
 		//------------------------------------------------------------------------------------------------------
 		int z,x = 0,cont =0,inicio = 0,aux; //vai ter o indice da linha onde o primeiro comando real vai estar (um comando fora de funçao.)
 		for(z = 0; z < lines.length; z++){
 			if(lines[z].contains("{")) cont++;
 			else if(lines[z].contains("}")) cont--;
-			
+
 			if(lines[z].contains("new") && cont == 0 || lines[z].contains("prt") && cont == 0){
 				inicio = z;
 				break;
@@ -61,32 +61,32 @@ class Interpreter {
 			}
 			aux++;
 		}
-		
+
 		this.ggizi = new String[inicio];
 		for(z = 0; z < ggizi.length; z++){
 			ggizi[x] = lines[z];
 			//System.out.println("ggizi "+ggizi[x]); //veja a ggizi...
 			x++;
 		}
-		
+
 		//-------------------------------------------------------------------------------------------------------
-		
+
 		for (i = 0; i < lines.length && lines[i] != null; i++) {
 			if (!(lines[i].startsWith("~") || lines[i].trim().isEmpty())) {
 				// Se não for imprimir mensagem, "enxuga" os espaços excessivos da linha
 				dummy = lines[i].toLowerCase();
-				
+
 				if(dummy.trim().contains("prt\"") == false){
 					lines[i] = lines[i].replace("\t","");
 					lines[i] = lines[i].trim();
 				}
-				
+
 				if(dummy.contains("while") && flagLoop != 0)
 					flagLoop++;
-				
+
 				if(dummy.contains("done") && flagLoop != 0)
 					flagLoop--;
-				
+
 				else if(dummy.contains("done") && flagLoop == 0){
 					i = loop.pop();
 					dummy = lines[i].toLowerCase();
@@ -95,22 +95,22 @@ class Interpreter {
 				// verifica abertura e fechamento de escopos
 				if(dummy.contains("if") || dummy.contains("while"))
 					scopeCounter++;
-					
+
 				if(dummy.contains("fi") || dummy.contains("done"))
 					scopeCounter--;
-				
+
 				if(dummy.contains("fi") && (condCounter == 0)){
 					flagIf = 0;
 				}
-				
+
 				if(flagIf == 1 && lines[i].toLowerCase().contains("if"))
 					condCounter++;
-				
-				if(flagIf == 1 && lines[i].toLowerCase().contains("fi")) 
+
+				if(flagIf == 1 && lines[i].toLowerCase().contains("fi"))
 					condCounter--;
 				//---------------------------------------------------------------------------------------------------------
 				//invoca o método tokens quando quando os flags das condições dos "se" e "enquanto" forem verdadeiras
-				if(flagIf == 0 && flagLoop == 0) 
+				if(flagIf == 0 && flagLoop == 0)
 					//---------------------------------------------------------------------------------------------------
 					//aqui vai a verificação se tem funçao ou nao
 					if(lines[i].contains("{") && i < inicio) i = inicio; //ignora a funçao... por momento é claro..
@@ -121,25 +121,27 @@ class Interpreter {
 					}
 					//-----------------------------------------------------------------------------------------------------
 					executa(lines[i]);
-			}		
+			}
 		}
 		if(this.scopeCounter != 0){
 			arit.mostraErro(5);
 		}
 	}
-	
+
 	public void executa(String tokens){
-		String treated[] = tokens.split("~"); 
+		String treated[] = tokens.split("~");
 		// Esta linha dispensa comentários. Trocadilho não-intencional.
-		
+
 		treated = treated[0].split(" "); //linha tratada a ser interpretada
 		//interpreta a linha
 		int k;
-		boolean validaNome = 
+		boolean validaNome =
 			treated.length > 1 ? Character.isLetter(treated[1].charAt(0)) : false;
 		switch (treated[0].toLowerCase()) {
 			case "new":
-				//acha e insere no final (topo) do vetor
+				tokens = tokens.replaceAll(" ", "");
+				tokens = tokens.replaceAll("new", "");
+				String var[] = tokens.split("\\[");
 				if(validaNome == false)
 					arit.mostraErro(6);
 				if(arit.indiceDaVariavel(treated[1], variable, top) != -1){
@@ -147,38 +149,25 @@ class Interpreter {
 				}
 				if(top < variable.length) {
 					variable[top] = new Var();
-					variable[top].setName(treated[1]);
-					//System.out.println("aqui ");
-					//System.out.println(variable[top].setName(treated[1]));
+					if(var.length > 1){
+						var[1] = var[1].replaceAll("\\]", "");
+						//System.out.println("vetor com tamanho : " + var[1] + ", nome: " + var[0]);
+						variable[top].setName(var[0],Integer.parseInt(var[1]));
+					} else {
+						//System.out.println("N eh vetor, nome: " + var[0]);
+						variable[top].setName(var[0],1);
+					}
 					top++;
-				} else { 
+				} else {
 					arit.mostraErro(2);
 				}
 			break;
-			
+
 			case "atr":
-				if(treated[2].contains("func")){
-					String v2[] = new String[ggizi.length]; //no maximo o tamanho de ggizi
-					int w,x = 0;
-					double resultado = 0.0;
-					
-					for(w = 0; w < ggizi.length;w++){
-						if(ggizi[w].contains("double") && ggizi[w].contains(treated[3])){
-							w++;
-							while(!ggizi[w].contains("}")){
-								v2[x] = ggizi[w];
-								x++;
-								w++;
-							}
-							break;
-						}
-					}
-					
-					v2 = f.Vremovenull(v2);
-					resultado = f.comRetorno(v2);
-					k = arit.indiceDaVariavel(treated[1], variable, top);
-					variable[k].setValue(resultado);
-					break;
+				if(tokens.contains("[")){
+					String nome[] = treated[1].split("\\[");// quebra no [, caso vim o nome a[], fica so a;
+					nome[0] = nome[0].replaceAll(" ", "");
+					treated[1] = nome[0];
 				}
 				if(validaNome == false)
 					arit.mostraErro(3, "Invalid variable name: " + treated[1]);
@@ -186,7 +175,12 @@ class Interpreter {
 				if(k == -1){
 					arit.mostraErro(4);
 				}
-				variable[k].setValue(arit.calculaExpressao(treated, 2, variable, top));
+				if(tokens.contains("[")){
+					String var1[] = tokens.split("\\[");
+					String indice[] = var1[1].split("\\]");
+					indice[0] = indice[0].replaceAll(" ", "");
+					variable[k].setValue(arit.calculaExpressao(treated, 2, variable, top),Integer.parseInt(indice[0]));
+				} else variable[k].setValue(arit.calculaExpressao(treated, 2, variable, top),0);
 			break;
 			case "prt":
 				double resultado = 0.0;
@@ -196,8 +190,7 @@ class Interpreter {
 						System.out.printf("%s%s", (iter > 1) ? " " : "", treated[iter]);
 					}
 					System.out.printf("\n");
-				}
-				else{
+				} else {
 					resultado = arit.calculaExpressao(treated, 1, variable, top);
 					if(arit.codigoDoOperador(treated[1]) < 5)
 						System.out.println(resultado);
@@ -210,7 +203,7 @@ class Interpreter {
 					flagIf = 1;
 			break;
 			case "fi": break;
-			
+
 			case "while":
 				if(arit.calculaExpressao(treated, 1, variable, top) == 0)
 					flagLoop++;
@@ -228,7 +221,7 @@ class Interpreter {
 						while(z < ggizi.length){
 							if(ggizi[z].contains("new") || ggizi[z].contains("prt") || ggizi[z].contains("atr") ||ggizi[z].contains("if")
 								||ggizi[z].contains("fi") ||ggizi[z].contains("while") ||ggizi[z].contains("done")){
-									
+
 									v[x] = ggizi[z];
 									x++;
 								}else if(ggizi[z].contains("}")){
@@ -243,17 +236,17 @@ class Interpreter {
 					if(vitor == 0)
 						arit.mostraErro(7);
 					break;
-				
+
 			case "return":
 			break;
-							
+
 			case "done": break;
-			
-				
+
+
 			default:
 				arit.mostraErro(3);
 			break;
 		}
 	}
-	
+
 }

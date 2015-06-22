@@ -1,11 +1,11 @@
 /**
  * Krauts - an interpreted language with Assembly-like syntax
  * Developed by Vitor G. Forbrig and Leonardo D. Constantin
- * 
- * Contact us: 
+ *
+ * Contact us:
  *  vitorforbrig at gmail dot com
  *  constantin dot leo at gmail dot com
- * 
+ *
  * Arit class: Arithmetic and Logic Unit, also responsible for error warnings
 **/
 
@@ -13,29 +13,38 @@ import java.util.*;
 
 class Arit {
 	//recebe string e retorna número da variavel ou constante,
-	// ex no código: "add a 2", retorna o valor contido em "a" ou a constante "2" 
+	// ex no código: "add a 2", retorna o valor contido em "a" ou a constante "2"
 	public double valorDaVariavel(String what, Var variable[], int top) {
 		double v;
 		try {
 			v = Double.parseDouble(what);
-			return v;	
-		} 
+			return v;
+		}
 		catch(Exception e) {
 			int i = indiceDaVariavel(what, variable, top);
-			return variable[i].getValue();
+			if (what.contains("[")){
+				String name [] = what.split("\\[");
+				String numero = name[1].replaceAll("\\]", "");
+				return variable[i].getValue(Integer.parseInt(numero));
+			}
+			return variable[i].getValue(0);
 		}
 	}
-	
+
 	// retorna o indice que se encontra a variavel
 	public int indiceDaVariavel(String what, Var variable[], int top) {
 		int who;
+		if (what.contains("[")){
+			String name [] = what.split("\\[");
+			what = name[0];
+		}
 		for(who = 0; who < top; who++)
 			if (what.equals(variable[who].getName()))//achou
 				return who;
-		return -1; //nao achou; 
+		return -1; //nao achou;
 		//CUIDADO COM ACESSOS INVALIDOS AO ARRAY
-	}	
-	
+	}
+
 	public int codigoDoOperador(String token){
 		String[] operadores = new String[18];
 		operadores[0] = "add";
@@ -43,14 +52,14 @@ class Arit {
 		operadores[2] = "mul";
 		operadores[3] = "div";
 		operadores[4] = "mod";
-		
+
 		operadores[5] = "eq";
 		operadores[6] = "lt";
 		operadores[7] = "gt";
 		operadores[8] = "leq";
 		operadores[9] = "geq";
 		operadores[10] = "neq";
-		
+
 		operadores[11] = "not";
 		operadores[12] = "and";
 		operadores[13] = "or";
@@ -58,13 +67,13 @@ class Arit {
 		operadores[15] = "nand";
 		operadores[16] = "nor";
 		operadores[17] = "xnor";
-		
+
 		token = token.toLowerCase();
-		
+
 		for(int i=0; i<operadores.length; i++)
 			if(token.equals(operadores[i]))
 				return i;
-		
+
 		return -1;
 	}
 	private double ALU(String token, double op1, double op2){
@@ -92,33 +101,33 @@ class Arit {
 					mostraErro(0);
 				}
 			break;
-			
+
 			/* Comparison functions */
-			case "eq": 
+			case "eq":
 				result = cmp_eq(op1, op2)
-					? 1 : 0; 
-			break;
-			case "lt": 
-				result = cmp_lt(op1, op2) 
 					? 1 : 0;
 			break;
-			case "gt": 
-				result = cmp_gt(op1, op2) 
-					? 1 : 0; 
+			case "lt":
+				result = cmp_lt(op1, op2)
+					? 1 : 0;
 			break;
-			case "leq": 
-				result = cmp_leq(op1, op2) 
-					? 1 : 0; 
+			case "gt":
+				result = cmp_gt(op1, op2)
+					? 1 : 0;
 			break;
-			case "geq": 
-				result = cmp_geq(op1, op2) 
-					? 1 : 0; 
+			case "leq":
+				result = cmp_leq(op1, op2)
+					? 1 : 0;
 			break;
-			case "neq": 
-				result = cmp_neq(op1, op2) 
-					? 1 : 0; 
+			case "geq":
+				result = cmp_geq(op1, op2)
+					? 1 : 0;
 			break;
-			
+			case "neq":
+				result = cmp_neq(op1, op2)
+					? 1 : 0;
+			break;
+
 			/* Boolean operations */
 			case "not":
 				result = (cmp_eq(op1, 0))
@@ -137,7 +146,7 @@ class Arit {
 					? 1 : 0;
 			break;
 			case "nand":
-				result = (cmp_eq(op1, 0) || cmp_eq(op2, 0)) 
+				result = (cmp_eq(op1, 0) || cmp_eq(op2, 0))
 					? 1 : 0;
 			break;
 			case "nor":
@@ -148,18 +157,18 @@ class Arit {
 				result = (cmp_eq(op1, 0) ^ cmp_eq(op2, 0))
 					? 0 : 1;
 			break;
-			
+
 			default:
 				mostraErro(3);
 			break;
 		}
 		return result;
 	}
-	
+
 	public double calculaExpressao(String token[], int idx, Var variable[], int top){
 		double op1, op2, result;
 		Stack<Double> p = new Stack<Double>();
-		
+
 		for (int i = token.length - 1; i >= idx; i--){
 			if(codigoDoOperador(token[i]) == -1){
 				// token é um operando
@@ -168,31 +177,31 @@ class Arit {
 			}
 			else{ // token é um operador
 				op1 = p.pop();
-				op2 = (token[i].toLowerCase().equals("not")) ? 0.0 : p.pop(); 
+				op2 = (token[i].toLowerCase().equals("not")) ? 0.0 : p.pop();
 				result = ALU(token[i], op1, op2);
 				p.push(result);
 			}
 		}
-		
+
 		return p.peek();
 	}
-	
+
 	// metodos de comparacao de double, tratando erros de precisao
 	private static final double EPS = 1.e-14;
 	private static int cmp(double x, double y){
 		return (x <= y + EPS) ? (x + EPS < y) ? -1 : 0 : 1;
 	}
-	
+
 	private static boolean cmp_eq (double x, double y) {return cmp(x, y) == 0;}
 	private static boolean cmp_lt (double x, double y) {return cmp(x, y) <  0;}
 	private static boolean cmp_gt (double x, double y) {return cmp(x, y) >  0;}
 	private static boolean cmp_leq(double x, double y) {return cmp(x, y) <= 0;}
 	private static boolean cmp_geq(double x, double y) {return cmp(x, y) >= 0;}
 	private static boolean cmp_neq(double x, double y) {return cmp(x, y) != 0;}
-	
+
 	public void erro(int e){
-		switch(e){ 
-			case 0: 
+		switch(e){
+			case 0:
 				System.out.printf("ERROR(0): Division by zero\n");
 			break;
 			case 1:
@@ -201,38 +210,38 @@ class Arit {
 			case 2:
 				System.out.printf("ERROR(2): Variables limit exceeded\n");
 			break;
-			case 3: 
+			case 3:
 				System.out.printf("ERROR(3): Syntax error\n");
 			break;
-			case 4: 
+			case 4:
 				System.out.printf("ERROR(4): Unexisting variable\n");
 			break;
-			case 5: 
+			case 5:
 				System.out.printf("ERROR(5): Scope error\n");
 			break;
-			case 6: 
+			case 6:
 				System.out.printf("ERROR(6): Variable names must begin with a letter\n");
 			break;
-			case 7: 
+			case 7:
 				System.out.printf("ERROR(7): Call nonexistent FUNCTION\n");
 			break;
-			case 8: 
+			case 8:
 				System.out.printf("ERROR(8): function described in the main! check!\n");
 			break;
 		}
 	}
-	
+
 	public void mostraErro(int e){
 		erro(e);
 		System.exit(1);
 	}
-	
+
 	public void mostraErro(int e, String details){
 		erro(e);
 		System.out.println("Error details:\n\t" + details);
 		System.exit(1);
 	}
-	
+
 	public void mostraErro(String description){
 		System.out.println(description);
 		System.exit(1);

@@ -1,7 +1,8 @@
-new var
-PRT add 2 2
-prt sub 3 10
-prt mul 2 3
-prt div 12 3
-atr var 100
-prt var
+new a
+new b[4]
+new c [3            ]
+atr c[1] ADD 10 10
+prt c[1]
+atr b[2] ADD c[1] 2
+prt b[2]
+
